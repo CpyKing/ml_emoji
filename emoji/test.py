@@ -2,6 +2,7 @@ from dataloader import CustomImageDataset
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 from models import MyModel
+from torch.nn.parallel import DistributedDataParallel as DDP
 import torch
 from utils import get_seq2cls_table
 
@@ -14,9 +15,9 @@ def get_precision(pred, y):
 if __name__ == '__main__':
     test_dataloader = DataLoader(CustomImageDataset(mode='test'))
     net = MyModel()
-    net.load_state_dict(torch.load('save_model.pkl'))
     net.to(device=0)
-
+    net.load_state_dict(torch.load('save_model.pkl'))
+    
     net.eval()
 
     l  = 0

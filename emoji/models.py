@@ -95,10 +95,10 @@ class MyModel(nn.Module):
         self.compress_3 = self.compress_layer()
         self.compress_4 = self.compress_layer()
         
-        self.mul_attn_1 = MultiHeadAttention(n_head=2, d_model=1176, d_k=1176, d_v=1176)
-        self.add_norm_1 = AddNorm(1176, 0.5)
-        self.mul_attn_2 = MultiHeadAttention(n_head=2, d_model=1176, d_k=1176, d_v=1176)
-        self.add_norm_2 = AddNorm(1176, 0.5)
+        # self.mul_attn_1 = MultiHeadAttention(n_head=2, d_model=1176, d_k=1176, d_v=1176)
+        # self.add_norm_1 = AddNorm(1176, 0.5)
+        # self.mul_attn_2 = MultiHeadAttention(n_head=2, d_model=1176, d_k=1176, d_v=1176)
+        # self.add_norm_2 = AddNorm(1176, 0.5)
 
         self.prediect_layer = self.gen_prediect_layer()
     
@@ -138,14 +138,14 @@ class MyModel(nn.Module):
         tot_tensor = tot_tensor.view(tot_tensor.shape[0], tot_tensor.shape[1] * tot_tensor.shape[2])
         # print(tot_tensor.shape)
 
-        out,_ = self.mul_attn_1(tot_tensor,tot_tensor,tot_tensor)
-        # print(out.shape)
-        out = self.add_norm_1(out, out)
-        # print(out.shape)
-        out,_ = self.mul_attn_2(out,out,out)
-        out = self.add_norm_2(out, out)
+        # out,_ = self.mul_attn_1(tot_tensor,tot_tensor,tot_tensor)
+        # # print(out.shape)
+        # out = self.add_norm_1(out, out)
+        # # print(out.shape)
+        # out,_ = self.mul_attn_2(out,out,out)
+        # out = self.add_norm_2(out, out)
 
-        out = self.prediect_layer(out)
+        out = self.prediect_layer(tot_tensor)
         
         # print(out)
 

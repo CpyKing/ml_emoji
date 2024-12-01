@@ -81,7 +81,7 @@ if __name__ == '__main__':
         )
     criterion = torch.nn.CrossEntropyLoss()
 
-    epochs = 2
+    epochs = 50
     max_precision = 0
     for e in range(epochs):
         l  = 0
@@ -116,6 +116,8 @@ if __name__ == '__main__':
         if rank == 0:
             print('rank 0 test')
             val_precision = evaluation(net, val_dataloader, rank)
-            max_precision = val_precision
+            if cnt == 0:
+                max_precision = val_precision
             if val_precision > max_precision:
-                torch.save(net.state_dict(), 'save_model.pkl')
+                torch.save(net.module.state_dict(), 'save_model.pkl')
+                max_precision = val_precision
