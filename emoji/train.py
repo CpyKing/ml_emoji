@@ -79,6 +79,7 @@ if __name__ == '__main__':
             lr=0.001,
             weight_decay=0.01
         )
+    step_schedule = torch.optim.lr_scheduler.StepLR(step_size=5, gamma=0.75, optimizer=optimizer)
     criterion = torch.nn.CrossEntropyLoss()
 
     epochs = 50
@@ -107,10 +108,11 @@ if __name__ == '__main__':
             optimizer.step()
             precision += get_precision(out, y)
             cnt += 1
+            y = torch.argmax(y, dim=1)
             # print(cnt)
             # print('training time', time.time() - end_loading)
             # start_loading = time.time()
-        
+        step_schedule.step()
         print('train loss ', l / cnt)
         print('train precision ', str(precision.item() / cnt * 100) + '%')
         if rank == 0:
@@ -121,3 +123,4 @@ if __name__ == '__main__':
             if val_precision > max_precision:
                 torch.save(net.module.state_dict(), 'save_model.pkl')
                 max_precision = val_precision
+                print('\n\t\t\t\t\t\t\t save models .....\n')

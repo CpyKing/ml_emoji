@@ -32,8 +32,8 @@ if __name__ == '__main__':
         # print(y[0], seq2cls[str(torch.argmax(out).item())])
         pred_table[y[0]] = seq2cls[str(torch.argmax(out).item())]
         cnt += 1
-        if cnt > 50:
-            break
+        # if cnt > 50:
+        #     break
     with open('pred.csv', 'w') as f:
         for item in pred_table:
             f.writelines(item + ',' + pred_table[item] + '\n')
